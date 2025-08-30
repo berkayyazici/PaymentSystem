@@ -3,11 +3,9 @@ package com.paymentcheckservice.controller;
 import com.paymentcheckservice.dto.PaymentRequest;
 import com.paymentcheckservice.dto.PaymentResponse;
 import com.paymentcheckservice.service.PaymentCheckService;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/")
@@ -19,8 +17,13 @@ public class PaymentCheckController {
         this.paymentCheckService = paymentCheckService;
     }
 
+    @GetMapping("/getAllPayments")
+    public List<PaymentResponse> getAllPayments(){
+        return paymentCheckService.getAllPayments();
+    }
+
     @PostMapping("/checkPayment")
-    public PaymentResponse checkPayment(@RequestBody PaymentRequest paymentRequest) throws Exception {
+    public PaymentResponse checkPayment(@RequestBody PaymentRequest paymentRequest) {
         return paymentCheckService.checkPayment(paymentRequest);
     }
 
