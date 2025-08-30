@@ -4,45 +4,54 @@ import com.paymentcheckservice.dto.PaymentRequest;
 import com.paymentcheckservice.dto.PaymentResponse;
 import com.paymentcheckservice.entity.Payments;
 import com.paymentcheckservice.exceptions.NotEnoughAmountException;
+import com.paymentcheckservice.model.PaymentInfo;
 import com.paymentcheckservice.repository.PaymentCheckRepository;
 import com.paymentcheckservice.utils.PaymentStatus;
+import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Service;
 
+import java.sql.Date;
+import java.time.LocalDate;
 import java.util.List;
 
 @Service
 public class PaymentCheckService {
 
     private final PaymentCheckRepository paymentCheckRepository;
+    private final KafkaTemplate<String, PaymentInfo> kafkaTemplate;
 
-    public PaymentCheckService(PaymentCheckRepository paymentCheckRepository) {
+    public PaymentCheckService(PaymentCheckRepository paymentCheckRepository, KafkaTemplate<String, PaymentInfo> kafkaTemplate) {
         this.paymentCheckRepository = paymentCheckRepository;
+        this.kafkaTemplate = kafkaTemplate;
+    }
+
+    public String checkAndSend(PaymentRequest paymentRequest) {
+        // Burada normalde validation yapılır
+        PaymentInfo paymentInfo = new PaymentInfo();
+        paymentInfo.setPaymentId(paymentRequest.getPaymentId());
+        paymentInfo.setUserId(paymentRequest.getUserId());
+
+
+        kafkaTemplate.send("payment-topic", paymentInfo);
+        return "Payment info sent to Kafka: " + paymentInfo;
     }
 
     public PaymentResponse checkPayment(PaymentRequest paymentRequest) {
 
-        if (paymentRequest.getAmount() <= 0 || paymentRequest.getAmount() > 1000) {
-            throw new NotEnoughAmountException();
-        }
+        checkAndSend(paymentRequest);
 
-        Payments payments = new Payments();
-        payments.setUserId(paymentRequest.getUserId());
-        payments.setAmount(paymentRequest.getAmount());
-
-        paymentCheckRepository.save(payments);
-
-        return new PaymentResponse(paymentRequest.getUserId(), paymentRequest.getPaymentId(), PaymentStatus.Successful);
+        return new PaymentResponse(paymentRequest.getUserId(), paymentRequest.getPaymentId(), PaymentStatus.Successful, LocalDate.now());
     }
 
-    public List<PaymentResponse> getAllPayments()
+    public List<PaymentResponse> getAllPayments(Integer userId)
     {
-        return paymentCheckRepository.findAll().stream().map(
+        return paymentCheckRepository.findByUserId(userId).stream().map(
                 p -> {
                     PaymentResponse paymentResponse = new PaymentResponse();
                     paymentResponse.setUserId(p.getUserId());
-                    paymentResponse.setPaymentId(p.getId().toString());
+                    paymentResponse.setPaymentId(p.getPaymentId());
                     paymentResponse.setPaymentStatus(PaymentStatus.Successful);
-
+                    paymentResponse.setCreatedDate(p.getCreatedDate());
                     return paymentResponse;
                 }).toList();
     }
