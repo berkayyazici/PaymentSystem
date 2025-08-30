@@ -18,8 +18,8 @@ public class PaymentCheckController {
     }
 
     @GetMapping("/getAllPayments")
-    public List<PaymentResponse> getAllPayments(){
-        return paymentCheckService.getAllPayments();
+    public List<PaymentResponse> getAllPaymentsByUserId(@RequestBody Integer userId){
+        return paymentCheckService.getAllPayments(userId);
     }
 
     @PostMapping("/checkPayment")

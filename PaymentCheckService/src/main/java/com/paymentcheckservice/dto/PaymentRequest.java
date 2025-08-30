@@ -10,8 +10,8 @@ import lombok.Setter;
 @Setter
 @Getter
 public class PaymentRequest {
-    private String userId;
-    private String paymentId;
+    private Integer userId;
+    private Integer paymentId;
     private double amount;
     private String paymentStatus;
 }

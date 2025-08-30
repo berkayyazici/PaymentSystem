@@ -1,4 +1,4 @@
-package com.paymentcheckservice.entity;
+package com.paymentprocessingservice.entity;
 
 import jakarta.persistence.*;
 import lombok.Getter;
@@ -8,10 +8,10 @@ import java.time.LocalDate;
 import java.util.UUID;
 
 @Entity
-@Table(name = "PAYMENTS")
+@Table(name = "PAYMENTS_HISTORY")
 @Getter
 @Setter
-public class Payments {
+public class PaymentsHistory {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
