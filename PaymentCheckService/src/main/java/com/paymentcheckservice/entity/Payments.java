@@ -4,7 +4,7 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.UUID;
 
 @Entity
@@ -14,10 +14,10 @@ import java.util.UUID;
 public class Payments {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.UUID)
     @Column(columnDefinition = "uuid", nullable = false, updatable = false)
     private UUID id;
-    private Integer userId;
-    private Integer paymentId;
-    private LocalDate createdDate;
+    private UUID userId;
+    private UUID paymentId;
+    private LocalDateTime createdDate;
 }
