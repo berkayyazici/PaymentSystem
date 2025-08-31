@@ -6,6 +6,7 @@ import com.paymentcheckservice.service.PaymentCheckService;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.UUID;
 
 @RestController
 @RequestMapping("/")
@@ -18,8 +19,8 @@ public class PaymentCheckController {
     }
 
     @GetMapping("/getAllPayments")
-    public List<PaymentResponse> getAllPaymentsByUserId(@RequestBody Integer userId){
-        return paymentCheckService.getAllPayments(userId);
+    public List<PaymentResponse> getAllPaymentsByUserId(@RequestBody String userId){
+        return paymentCheckService.getAllPayments(UUID.fromString(userId));
     }
 
     @PostMapping("/checkPayment")

@@ -8,6 +8,6 @@ import java.io.Serializable;
 @Getter
 @Setter
 public class PaymentInfo implements Serializable {
-    private Integer paymentId;
-    private Integer userId;
+    private String paymentId;
+    private String userId;
 }

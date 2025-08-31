@@ -4,20 +4,20 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
 @Entity
-@Table(name = "PAYMENTS_HISTORY")
+@Table(name = "ACCOUNTS")
 @Getter
 @Setter
-public class PaymentsHistory {
+public class Accounts {
 
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
-    @Column(columnDefinition = "uuid", updatable = false)
     private UUID id;
-    private Integer paymentId;
+    private BigDecimal amount;
     private LocalDateTime createdDate;
-    private Integer status;
+    private byte active;
 }

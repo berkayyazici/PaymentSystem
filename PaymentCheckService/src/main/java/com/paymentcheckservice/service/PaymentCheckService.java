@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 import java.sql.Date;
 import java.time.LocalDate;
 import java.util.List;
+import java.util.UUID;
 
 @Service
 public class PaymentCheckService {
@@ -28,7 +29,6 @@ public class PaymentCheckService {
     public String checkAndSend(PaymentRequest paymentRequest) {
         // Burada normalde validation yapılır
         PaymentInfo paymentInfo = new PaymentInfo();
-        paymentInfo.setPaymentId(paymentRequest.getPaymentId());
         paymentInfo.setUserId(paymentRequest.getUserId());
 
 
@@ -43,14 +43,13 @@ public class PaymentCheckService {
         return new PaymentResponse(paymentRequest.getUserId(), paymentRequest.getPaymentId(), PaymentStatus.Successful, LocalDate.now());
     }
 
-    public List<PaymentResponse> getAllPayments(Integer userId)
+    public List<PaymentResponse> getAllPayments(UUID userId)
     {
         return paymentCheckRepository.findByUserId(userId).stream().map(
                 p -> {
                     PaymentResponse paymentResponse = new PaymentResponse();
                     paymentResponse.setUserId(p.getUserId());
                     paymentResponse.setPaymentId(p.getPaymentId());
-                    paymentResponse.setPaymentStatus(PaymentStatus.Successful);
                     paymentResponse.setCreatedDate(p.getCreatedDate());
                     return paymentResponse;
                 }).toList();

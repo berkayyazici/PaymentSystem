@@ -7,14 +7,15 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.util.UUID;
 
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
 @Setter
 public class PaymentResponse {
-    private Integer userId;
-    private Integer paymentId;
-    private PaymentStatus paymentStatus;
-    private LocalDate createdDate;
+    private UUID userId;
+    private UUID paymentId;
+    private LocalDateTime createdDate;
 }
