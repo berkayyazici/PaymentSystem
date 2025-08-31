@@ -17,7 +17,6 @@ public class Users {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
-    private UUID accountId;
     private String name;
     private String email;
     private LocalDateTime createdDate;

@@ -40,11 +40,6 @@ public class PaymentProcessingService {
         // TODO : ÖNCE USER VAR MI DİYE KONTROL ET (ACTIVE USER)
         // TODO : DAHA SONRA ACCOUNTU VAR MI DİYE KONTROL ET (ACTIVE ACCOUNT)
 
-        if(usersRepository.findById(paymentInfo.getUserId())){
-
-        }
-
-
         PaymentsHistory paymentsHistory = new PaymentsHistory();
         paymentsHistory.setPaymentId(paymentInfo.getPaymentId());
         paymentsHistory.setCreatedDate(LocalDateTime.now());
