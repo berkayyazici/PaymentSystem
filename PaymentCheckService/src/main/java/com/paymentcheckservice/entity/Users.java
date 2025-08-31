@@ -1,24 +1,23 @@
-package com.paymentprocessingservice.entity;
+package com.paymentcheckservice.entity;
 
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
 @Entity
-@Table(name = "ACCOUNTS")
+@Table(name = "USERS")
 @Getter
 @Setter
-public class Accounts {
+public class Users {
 
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
-    private UUID userId;
-    private BigDecimal balance;
+    private String name;
+    private String email;
     private LocalDateTime createdDate;
     private byte active;
 }

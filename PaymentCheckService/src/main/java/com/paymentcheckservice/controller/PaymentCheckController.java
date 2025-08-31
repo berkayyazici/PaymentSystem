@@ -24,7 +24,7 @@ public class PaymentCheckController {
     }
 
     @PostMapping("/checkPayment")
-    public PaymentResponse checkPayment(@RequestBody PaymentRequest paymentRequest) {
+    public PaymentResponse checkPayment(@RequestBody PaymentRequest paymentRequest) throws Exception {
         return paymentCheckService.checkPayment(paymentRequest);
     }
 

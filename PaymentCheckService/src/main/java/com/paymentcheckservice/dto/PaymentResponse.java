@@ -18,4 +18,9 @@ public class PaymentResponse {
     private UUID userId;
     private UUID paymentId;
     private LocalDateTime createdDate;
+
+    public PaymentResponse(UUID userId, LocalDateTime createdDate) {
+        this.userId = userId;
+        this.createdDate = createdDate;
+    }
 }
