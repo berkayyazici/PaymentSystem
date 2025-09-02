@@ -17,7 +17,7 @@ public class PaymentsHistory {
     @GeneratedValue(strategy = GenerationType.UUID)
     @Column(columnDefinition = "uuid", updatable = false)
     private UUID id;
-    private Integer paymentId;
+    private UUID paymentId;
     private LocalDateTime createdDate;
     private Integer status;
 }

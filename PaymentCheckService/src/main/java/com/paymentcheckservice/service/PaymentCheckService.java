@@ -2,6 +2,7 @@ package com.paymentcheckservice.service;
 
 import com.paymentcheckservice.dto.PaymentRequest;
 import com.paymentcheckservice.dto.PaymentResponse;
+import com.paymentcheckservice.entity.Payments;
 import com.paymentcheckservice.model.PaymentInfo;
 import com.paymentcheckservice.repository.AccountsRepository;
 import com.paymentcheckservice.repository.PaymentsRepository;
@@ -35,12 +36,20 @@ public class PaymentCheckService {
             throw new Exception("User not found");
         }
 
-        if(accountsRepository.findByUserId(UUID.fromString(paymentRequest.getUserId())) != null){
+        if(accountsRepository.findByUserId(UUID.fromString(paymentRequest.getUserId())) == null){
             throw new Exception("Account not found");
         }
 
+        Payments payment = new Payments();
+        payment.setUserId(UUID.fromString(paymentRequest.getUserId()));
+        payment.setPaymentId(UUID.randomUUID());
+        payment.setCreatedDate(LocalDateTime.now());
+
+        paymentsRepository.save(payment);
+
         PaymentInfo paymentInfo = new PaymentInfo();
         paymentInfo.setUserId(paymentRequest.getUserId());
+        paymentInfo.setPaymentId(payment.getPaymentId().toString());
 
 
         kafkaTemplate.send("payment-topic", paymentInfo);

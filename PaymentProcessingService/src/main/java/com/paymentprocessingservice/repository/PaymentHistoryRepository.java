@@ -8,5 +8,5 @@ import java.util.UUID;
 
 public interface PaymentHistoryRepository extends JpaRepository<PaymentsHistory, UUID> {
 
-    List<PaymentsHistory> findByPaymentId(Integer paymentId);
+    List<PaymentsHistory> findByPaymentId(UUID paymentId);
 }

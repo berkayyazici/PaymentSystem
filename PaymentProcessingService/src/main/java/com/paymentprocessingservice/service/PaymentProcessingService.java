@@ -30,15 +30,12 @@ public class PaymentProcessingService {
         PaymentsHistory paymentsHistory = pendingPayment(paymentInfo);
         approvePayment(paymentsHistory);
 
-        System.out.println("Processing payment: " + paymentsHistory.getPaymentId() + "\n" +  "User ID : " + paymentsHistory.getCreatedDate());
+        System.out.println("Processing payment...");
         // Burada normalde ödeme işleme logic çalışır
     }
 
 
     public PaymentsHistory pendingPayment(PaymentInfo paymentInfo){
-
-        // TODO : ÖNCE USER VAR MI DİYE KONTROL ET (ACTIVE USER)
-        // TODO : DAHA SONRA ACCOUNTU VAR MI DİYE KONTROL ET (ACTIVE ACCOUNT)
 
         PaymentsHistory paymentsHistory = new PaymentsHistory();
         paymentsHistory.setPaymentId(paymentInfo.getPaymentId());
