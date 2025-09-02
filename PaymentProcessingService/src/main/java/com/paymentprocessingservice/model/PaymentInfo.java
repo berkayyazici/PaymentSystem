@@ -9,6 +9,6 @@ import java.util.UUID;
 @Getter
 @Setter
 public class PaymentInfo implements Serializable {
-    private Integer paymentId;
+    private UUID paymentId;
     private UUID userId;
 }
