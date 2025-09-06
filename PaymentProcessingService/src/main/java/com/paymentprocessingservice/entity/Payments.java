@@ -1,4 +1,4 @@
-package com.paymentcheckservice.entity;
+package com.paymentprocessingservice.entity;
 
 import jakarta.persistence.*;
 import lombok.Getter;

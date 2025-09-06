@@ -19,5 +19,5 @@ public class PaymentsHistory {
     private UUID id;
     private UUID paymentId;
     private LocalDateTime createdDate;
-    private Integer status;
+    private String status;
 }
