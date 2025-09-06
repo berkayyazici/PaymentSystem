@@ -7,6 +7,7 @@ import com.paymentcheckservice.model.PaymentInfo;
 import com.paymentcheckservice.repository.AccountsRepository;
 import com.paymentcheckservice.repository.PaymentsRepository;
 import com.paymentcheckservice.repository.UsersRepository;
+import com.paymentcheckservice.utils.PaymentStatus;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Service;
 
@@ -30,6 +31,13 @@ public class PaymentCheckService {
         this.kafkaTemplate = kafkaTemplate;
     }
 
+    public PaymentResponse checkPayment(PaymentRequest paymentRequest) throws Exception {
+
+        checkAndSend(paymentRequest);
+
+        return new PaymentResponse(UUID.fromString(paymentRequest.getUserId()), LocalDateTime.now());
+    }
+
     public String checkAndSend(PaymentRequest paymentRequest) throws Exception {
 
         if(usersRepository.findById(UUID.fromString(paymentRequest.getUserId())).isEmpty()){
@@ -44,6 +52,7 @@ public class PaymentCheckService {
         payment.setUserId(UUID.fromString(paymentRequest.getUserId()));
         payment.setPaymentId(UUID.randomUUID());
         payment.setCreatedDate(LocalDateTime.now());
+        payment.setStatus(PaymentStatus.PENDING.toString());
 
         paymentsRepository.save(payment);
 
@@ -54,13 +63,6 @@ public class PaymentCheckService {
 
         kafkaTemplate.send("payment-topic", paymentInfo);
         return "Payment info sent to Kafka: " + paymentInfo;
-    }
-
-    public PaymentResponse checkPayment(PaymentRequest paymentRequest) throws Exception {
-
-        checkAndSend(paymentRequest);
-
-        return new PaymentResponse(UUID.fromString(paymentRequest.getUserId()), LocalDateTime.now());
     }
 
     public List<PaymentResponse> getAllPayments(UUID userId)
